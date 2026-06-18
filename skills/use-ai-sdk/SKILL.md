@@ -20,7 +20,7 @@ Everything you know about the AI SDK is outdated or wrong. Your training data co
 3. If not found locally, search ai-sdk.dev documentation (instructions below)
 4. Never rely on memory - always verify against source code or docs
 5. **`useChat` has changed significantly** - check [Common Errors](references/common-errors.md) before writing client code
-6. When deciding which model and provider to use (e.g. OpenAI, Anthropic, Gemini), use the Vercel AI Gateway provider unless the user specifies otherwise. See [AI Gateway Reference](references/ai-gateway.md) for usage details.
+6. When deciding which model and provider to use (e.g. OpenAI, Anthropic, Gemini), use the provider's dedicated package directly (e.g. `@ai-sdk/openai`, `@ai-sdk/anthropic`, `@ai-sdk/google`) with the provider's own API key. Install the relevant provider package when needed and import the provider from it (e.g. `import { openai } from '@ai-sdk/openai'`). See [Provider Setup Reference](references/provider-setup.md) for usage details.
 7. **Always fetch current model IDs** - Never use model IDs from memory. Before writing code that uses a model, run `curl -s https://ai-gateway.vercel.sh/v1/models | jq -r '[.data[] | select(.id | startswith("provider/")) | .id] | reverse | .[]'` (replacing `provider` with the relevant provider like `anthropic`, `openai`, or `google`) to get the full list with newest models first. Use the model with the highest version number (e.g., `claude-sonnet-4-5` over `claude-sonnet-4` over `claude-3-5-sonnet`).
 8. Run typecheck after changes to ensure code is correct
 9. **Be minimal** - Only specify options that differ from defaults. When unsure of defaults, check docs or source rather than guessing or over-specifying.
@@ -73,6 +73,6 @@ Before implementing agent consumption:
 ## References
 
 - [Common Errors](references/common-errors.md) - Renamed parameters reference (parameters → inputSchema, etc.)
-- [AI Gateway](references/ai-gateway.md) - Gateway setup and usage
+- [Provider Setup](references/provider-setup.md) - Using provider packages directly with their own API keys
 - [Type-Safe Agents with useChat](references/type-safe-agents.md) - End-to-end type safety with InferAgentUIMessage
 - [DevTools](references/devtools.md) - Set up local debugging and observability (development only)
